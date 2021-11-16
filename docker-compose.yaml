@@ -101,11 +101,11 @@ services:
       - kafka
       - etcd
     network_mode: "host"
-      logging:
-        driver: json-file
-        options:
-          max-size: "1g"
-          max-file: "2"
+    logging:
+      driver: json-file
+      options:
+        max-size: "1g"
+        max-file: "2"
 
   #fixme----build from docker hub------
 #  open-im-server:
