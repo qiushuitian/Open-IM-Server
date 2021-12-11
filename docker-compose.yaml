@@ -88,20 +88,45 @@ services:
     restart: always
     command: /usr/local/bin/etcd --name etcd0 --data-dir /etcd-data --listen-client-urls http://0.0.0.0:2379 --advertise-client-urls http://0.0.0.0:2379 --listen-peer-urls http://0.0.0.0:2380 --initial-advertise-peer-urls http://0.0.0.0:2380 --initial-cluster etcd0=http://0.0.0.0:2380 --initial-cluster-token tkn --initial-cluster-state new
 
-  open_im_server:
-    image: openim/open_im_server
-    container_name: open_im_server
+  # open_im_server:
+  #   image: openim/open_im_server
+  #   container_name: open_im_server
+  #   volumes:
+  #     - ./logs:/Open-IM-Server/logs
+  #     - ./config/config.yaml:/Open-IM-Server/config/config.yaml
+  #     - ./db/sdk:/Open-IM-Server/db/sdk
+  #     - ./script:/Open-IM-Server/script
+  #   restart: always
+  #   depends_on:
+  #     - kafka
+  #     - mysql
+  #     - mongodb
+  #     - redis
+  #     - etcd
+  #   network_mode: "host"
+  #   logging:
+  #     driver: json-file
+  #     options:
+  #       max-size: "1g"
+  #       max-file: "2"
+
+  open-im-server:
+    image: open_im_server
+    container_name: open-im-server
     volumes:
       - ./logs:/Open-IM-Server/logs
       - ./config/config.yaml:/Open-IM-Server/config/config.yaml
       - ./db/sdk:/Open-IM-Server/db/sdk
       - ./script:/Open-IM-Server/script
     restart: always
+    build:
+      context: .
+      dockerfile: deploy.Dockerfile
     depends_on:
-      - kafka
       - mysql
       - mongodb
       - redis
+      - kafka
       - etcd
     network_mode: "host"
     logging:
@@ -109,3 +134,6 @@ services:
       options:
         max-size: "1g"
         max-file: "2"
+
+
+
