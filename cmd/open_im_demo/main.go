@@ -5,8 +5,9 @@ import (
 	"Open_IM/pkg/common/log"
 	"Open_IM/pkg/utils"
 	"flag"
-	"github.com/gin-gonic/gin"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -20,6 +21,7 @@ func main() {
 		authRouterGroup.POST("/verify", register.Verify)
 		authRouterGroup.POST("/password", register.SetPassword)
 		authRouterGroup.POST("/login", register.Login)
+		authRouterGroup.POST("/register", register.Register)
 	}
 	log.NewPrivateLog("demo")
 	ginPort := flag.Int("port", 42233, "get ginServerPort from cmd,default 42233 as port")

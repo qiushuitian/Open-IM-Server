@@ -9,9 +9,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 type ParamsLogin struct {
@@ -19,6 +20,7 @@ type ParamsLogin struct {
 	PhoneNumber string `json:"phoneNumber"`
 	Password    string `json:"password"`
 	Platform    int32  `json:"platform"`
+	UserName    string `json:"userName"`
 }
 
 func Login(c *gin.Context) {
@@ -30,7 +32,9 @@ func Login(c *gin.Context) {
 	}
 
 	var account string
-	if params.Email != "" {
+	if params.UserName != "" {
+		account = params.UserName
+	} else if params.Email != "" {
 		account = params.Email
 	} else {
 		account = params.PhoneNumber
