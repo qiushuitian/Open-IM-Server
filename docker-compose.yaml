@@ -91,6 +91,9 @@ services:
   open_im_server:
     image: openim/open_im_server
     container_name: open_im_server
+    build:
+      context: .
+      dockerfile: deploy.Dockerfile
     volumes:
       - ./logs:/Open-IM-Server/logs
       - ./config/config.yaml:/Open-IM-Server/config/config.yaml
