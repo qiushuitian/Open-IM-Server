@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Open_IM/internal/demo/bottle"
 	"Open_IM/internal/demo/register"
 	"Open_IM/pkg/common/log"
 	"Open_IM/pkg/utils"
@@ -23,6 +24,13 @@ func main() {
 		authRouterGroup.POST("/login", register.Login)
 		authRouterGroup.POST("/register", register.Register)
 	}
+
+	bottleGroup := r.Group("/bottle")
+	{
+		bottleGroup.POST("/throw", bottle.ThrowBottle)
+		bottleGroup.POST("/pick", bottle.PickBottle)
+	}
+
 	log.NewPrivateLog("demo")
 	ginPort := flag.Int("port", 42233, "get ginServerPort from cmd,default 42233 as port")
 	flag.Parse()
