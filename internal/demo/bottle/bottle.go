@@ -61,6 +61,9 @@ func ThrowBottle(c *gin.Context) {
 	params.bId = time.Now().UnixMicro()
 	bottle_pool.Store(params.bId, &params)
 
-	c.JSON(http.StatusOK, gin.H{"errCode": constant.NoError, "errMsg": "", "data": "扔出成功"})
+	data := make(map[string]interface{})
+	data["msg"] = "扔出成功"
+
+	c.JSON(http.StatusOK, gin.H{"errCode": constant.NoError, "errMsg": "", "data": data})
 
 }
