@@ -26,6 +26,38 @@ type BottleInfo struct {
 	Text       string `json:"text"`
 }
 
+type ParamsCheckUpgrade struct {
+	Version  string `json:"version"`
+	Platform string `json:"platform"`
+	AppName  string `json:"appName"`
+}
+
+type UpgradeInfo struct {
+	NeedForceUpdate        bool   `json:"needForceUpdate"`
+	DownloadURL            string `json:"downloadURL"`
+	BuildVersion           string `json:"buildVersion"`
+	BuildUpdateDescription string `json:"buildUpdateDescription"`
+}
+
+func CheckUpgrade(c *gin.Context) {
+	log.NewDebug("CheckUpgrade api is statrting...")
+	params := ParamsCheckUpgrade{}
+	if err := c.BindJSON(&params); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"errCode": constant.FormattingError, "errMsg": err.Error()})
+		return
+	}
+
+	log.InfoByKv("api CheckUpgrade get params", params.Version, params.Platform, params.AppName)
+
+	// 先不做这么复杂，只是从map中取第一个非自己的瓶子
+	upgradeInfo := &UpgradeInfo{
+		NeedForceUpdate:        false,
+		BuildVersion:           "1.1.0",
+		DownloadURL:            "http://baidu.com",
+		BuildUpdateDescription: "欢迎来到漂流瓶新版本"}
+	c.JSON(http.StatusOK, gin.H{"errCode": constant.NoError, "errMsg": "", "data": upgradeInfo})
+}
+
 func PickBottle(c *gin.Context) {
 	log.NewDebug("PickBottle api is statrting...")
 	params := ParamsPickBottle{}
