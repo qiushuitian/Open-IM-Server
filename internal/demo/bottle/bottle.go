@@ -28,7 +28,7 @@ type BottleInfo struct {
 
 type ParamsCheckUpgrade struct {
 	Version  string `json:"version"`
-	Platform string `json:"platform"`
+	Platform int    `json:"platform"`
 	AppName  string `json:"appName"`
 }
 
@@ -49,7 +49,6 @@ func CheckUpgrade(c *gin.Context) {
 
 	log.InfoByKv("api CheckUpgrade get params", params.Version, params.Platform, params.AppName)
 
-	// 先不做这么复杂，只是从map中取第一个非自己的瓶子
 	upgradeInfo := &UpgradeInfo{
 		NeedForceUpdate:        false,
 		BuildVersion:           "1.1.0",
