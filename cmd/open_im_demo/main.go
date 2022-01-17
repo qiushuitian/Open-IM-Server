@@ -30,6 +30,8 @@ func main() {
 		bottleGroup.POST("/throw", bottle.ThrowBottle)
 		bottleGroup.POST("/pick", bottle.PickBottle)
 		bottleGroup.POST("/check_upgrade", bottle.CheckUpgrade)
+		bottleGroup.POST("/terms", bottle.Terms)
+
 	}
 
 	log.NewPrivateLog("demo")

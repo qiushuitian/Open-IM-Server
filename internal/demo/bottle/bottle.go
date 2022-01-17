@@ -39,6 +39,13 @@ type UpgradeInfo struct {
 	BuildUpdateDescription string `json:"buildUpdateDescription"`
 }
 
+type TermsInfo struct {
+	Name    string `json:"name"`
+	Version string `json:"version"`
+	Url     string `json:"url"`
+	Content string `json:"content"`
+}
+
 func CheckUpgrade(c *gin.Context) {
 	log.NewDebug("CheckUpgrade api is statrting...")
 	params := ParamsCheckUpgrade{}
@@ -96,5 +103,26 @@ func ThrowBottle(c *gin.Context) {
 	data["msg"] = "扔出成功"
 
 	c.JSON(http.StatusOK, gin.H{"errCode": constant.NoError, "errMsg": "", "data": data})
+
+}
+
+func Terms(c *gin.Context) {
+	log.NewDebug("Terms api is statrting...")
+
+	termsResp := make(map[string]*TermsInfo)
+	termsResp["user_terms"] = &TermsInfo{
+		Name:    "用户协议",
+		Version: "1.0.0",
+		Content: "",
+		Url:     "https://www.baidu.com",
+	}
+	termsResp["privacy_terms"] = &TermsInfo{
+		Name:    "隐私协议",
+		Version: "1.0.0",
+		Content: "",
+		Url:     "https://www.sohu.com/",
+	}
+
+	c.JSON(http.StatusOK, gin.H{"errCode": constant.NoError, "errMsg": "", "data": termsResp})
 
 }
