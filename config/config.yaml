@@ -64,11 +64,18 @@ sdk:
 
 credential:
   tencent:
-    appID: 1302656840
-    region: ap-chengdu
-    bucket: echat-1302656840
-    secretID: AKIDGNYVChzIQinu7QEgtNp0hnNgqcV8vZTC
-    secretKey: kz15vW83qM6dBUWIq681eBZA0c0vlIbe
+    appID: 1251207181
+    region: ap-guangzhou
+    bucket: bottle-1251207181
+    secretID: AKIDVqvkJcePvA8pGQJvHOEn57sMZXEengJg
+    secretKey: 7x3uUnqc7KI0RbU7TYMuCEyUjiQr2wZu
+
+  # tencent:
+  #   appID: 1302656840
+  #   region: ap-chengdu
+  #   bucket: echat-1302656840
+  #   secretID: AKIDGNYVChzIQinu7QEgtNp0hnNgqcV8vZTC
+  #   secretKey: kz15vW83qM6dBUWIq681eBZA0c0vlIbe
 
 
 rpcport:
