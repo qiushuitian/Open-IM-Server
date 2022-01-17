@@ -46,6 +46,18 @@ type TermsInfo struct {
 	Content string `json:"content"`
 }
 
+type ParamsReport struct {
+	UserName string `json:"userName"`
+	Type     string `json:"type"`
+	Content  string `json:"content"`
+}
+
+type ParamsFeedback struct {
+	UserName string `json:"userName"`
+	Type     string `json:"type"`
+	Content  string `json:"content"`
+}
+
 func CheckUpgrade(c *gin.Context) {
 	log.NewDebug("CheckUpgrade api is statrting...")
 	params := ParamsCheckUpgrade{}
@@ -124,5 +136,46 @@ func Terms(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"errCode": constant.NoError, "errMsg": "", "data": termsResp})
+
+}
+
+// 举报
+func Report(c *gin.Context) {
+	log.NewDebug("Report api is statrting...")
+
+	params := ParamsReport{}
+	if err := c.BindJSON(&params); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"errCode": constant.FormattingError, "errMsg": err.Error()})
+		return
+	}
+
+	// 记录下举报内容
+	log.InfoByKv("bottle_Report:", params.Type, params.UserName, params.Content)
+
+	data := make(map[string]interface{})
+	data["msg"] = "举报成功"
+
+	c.JSON(http.StatusOK, gin.H{"errCode": constant.NoError, "errMsg": "", "data": data})
+
+}
+
+// 意见反馈
+// 内容
+func Feedback(c *gin.Context) {
+	log.NewDebug("Feedback api is statrting...")
+
+	params := ParamsFeedback{}
+	if err := c.BindJSON(&params); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"errCode": constant.FormattingError, "errMsg": err.Error()})
+		return
+	}
+
+	// 记录下反馈内容
+	log.InfoByKv("bottle_Feedback:", params.Type, params.UserName, params.Content)
+
+	data := make(map[string]interface{})
+	data["msg"] = "反馈成功"
+
+	c.JSON(http.StatusOK, gin.H{"errCode": constant.NoError, "errMsg": "", "data": data})
 
 }

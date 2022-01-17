@@ -31,6 +31,8 @@ func main() {
 		bottleGroup.POST("/pick", bottle.PickBottle)
 		bottleGroup.POST("/check_upgrade", bottle.CheckUpgrade)
 		bottleGroup.POST("/terms", bottle.Terms)
+		bottleGroup.POST("/report", bottle.Report)
+		bottleGroup.POST("/feedback", bottle.Feedback)
 
 	}
 
