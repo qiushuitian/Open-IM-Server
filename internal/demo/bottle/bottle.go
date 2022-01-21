@@ -104,9 +104,11 @@ func hasMatchSensiveWords(str string) bool {
 	var words = fenChi.CutForSearch(str, true)
 	fmt.Println("分词结果:", strings.Join(words, "/"))
 	for _, v := range words {
-		if _, ok := sensiveWordsMap[v]; ok {
-			fmt.Println("敏感词匹配词:", v)
+		if vIn, ok := sensiveWordsMap[v]; ok {
+			fmt.Println("敏感词匹配词:", vIn)
 			return true
+		} else {
+			continue
 		}
 	}
 	return false
