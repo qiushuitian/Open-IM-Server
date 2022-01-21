@@ -69,6 +69,7 @@ const (
 	HttpError        = 10005
 	IoErrot          = 10006
 	IntentionalError = 10007
+	ContentIllegal   = 10101
 )
 
 func (e *ErrInfo) Error() string {

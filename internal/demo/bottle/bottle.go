@@ -3,15 +3,30 @@ package bottle
 import (
 	"Open_IM/pkg/common/constant"
 	"Open_IM/pkg/common/log"
+	"bufio"
+	"fmt"
 	"net/http"
+	"os"
+	"path/filepath"
+	"runtime"
+	"strings"
 	"sync"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/yanyiwu/gojieba"
 )
 
 // var bottle_pool = make(map[queryKey]BottleInfo)
-var bottle_pool sync.Map
+var (
+	_, b, _, _ = runtime.Caller(0)
+	// Root folder of this project
+	Root = filepath.Join(filepath.Dir(b), "../../..")
+
+	bottle_pool     sync.Map
+	sensiveWordsMap map[string]string
+	fenChi          *gojieba.Jieba
+)
 
 // var bottle_keys
 
@@ -56,6 +71,45 @@ type ParamsFeedback struct {
 	UserName string `json:"userName"`
 	Type     string `json:"type"`
 	Content  string `json:"content"`
+}
+
+func init() {
+	sensiveWordsMap = readSensiveWords()
+	fenChi = gojieba.NewJieba()
+
+	for _, v := range sensiveWordsMap {
+		fenChi.AddWord(v)
+	}
+}
+
+func readSensiveWords() map[string]string {
+	file, err := os.Open(Root + "/config/sensitive_words.txt")
+	if err != nil {
+		log.NewError("Cannot open text file: %s, err: [%v]", "sensitive_words.txt", err)
+		return nil
+	}
+	defer file.Close()
+
+	var swmap = make(map[string]string)
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		swmap[line] = line
+	}
+	return swmap
+}
+
+func hasMatchSensiveWords(str string) bool {
+	var words = fenChi.CutForSearch(str, true)
+	fmt.Println("分词结果:", strings.Join(words, "/"))
+	for _, v := range words {
+		if _, ok := sensiveWordsMap[v]; ok {
+			fmt.Println("敏感词匹配词:", v)
+			return true
+		}
+	}
+	return false
 }
 
 func CheckUpgrade(c *gin.Context) {
@@ -106,6 +160,14 @@ func ThrowBottle(c *gin.Context) {
 	if err := c.BindJSON(&params); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"errCode": constant.FormattingError, "errMsg": err.Error()})
 		return
+	}
+
+	// 文本审核
+	var hassensitive = hasMatchSensiveWords(params.Text)
+	if hassensitive {
+		c.JSON(http.StatusBadRequest, gin.H{"errCode": constant.ContentIllegal, "errMsg": "包含敏感内容。请遵守法律法规，文明聊天"})
+		return
+
 	}
 
 	params.bId = time.Now().UnixMicro()

@@ -97,6 +97,7 @@ services:
     volumes:
       - ./logs:/Open-IM-Server/logs
       - ./config/config.yaml:/Open-IM-Server/config/config.yaml
+      - ./config:/Open-IM-Server/config
       - ./db/sdk:/Open-IM-Server/db/sdk
       - ./script:/Open-IM-Server/script
     restart: always
