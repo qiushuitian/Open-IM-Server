@@ -35,7 +35,8 @@ COPY --from=build /Open-IM-Server/script /Open-IM-Server/script
 COPY --from=build /Open-IM-Server/bin /Open-IM-Server/bin
 
 # go 三方库
-RUN go get github.com/yanyiwu/gojieba
+COPY --from=build /go/pkg/mod/github.com/yanyiwu/ /go/pkg/mod/github.com/yanyiwu/
+
 
 
 WORKDIR /Open-IM-Server/script
