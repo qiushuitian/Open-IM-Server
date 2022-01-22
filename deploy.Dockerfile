@@ -34,6 +34,10 @@ VOLUME ["/Open-IM-Server/logs","/Open-IM-Server/config","/Open-IM-Server/script"
 COPY --from=build /Open-IM-Server/script /Open-IM-Server/script
 COPY --from=build /Open-IM-Server/bin /Open-IM-Server/bin
 
+# go 三方库
+RUN go get github.com/yanyiwu/gojieba
+
+
 WORKDIR /Open-IM-Server/script
 
 CMD ["./docker_start_all.sh"]
