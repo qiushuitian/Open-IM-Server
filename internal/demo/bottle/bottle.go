@@ -74,7 +74,7 @@ type ParamsFeedback struct {
 }
 
 type ParamsOnlineConfig struct {
-	Platform string `json:"platform"`
+	Platform int    `json:"platform"`
 	Version  string `json:"version"`
 }
 
@@ -260,7 +260,7 @@ func OnlineConfig(c *gin.Context) {
 	}
 
 	data := make(map[string]interface{})
-	if params.Version == "1.2.0" && params.Platform == "1" { //1:iOS 2:Android
+	if params.Version == "1.2.0" && params.Platform == 1 { //1:iOS 2:Android
 		data["ad_on"] = false
 	} else {
 		data["ad_on"] = true
