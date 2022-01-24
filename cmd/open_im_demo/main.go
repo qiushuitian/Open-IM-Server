@@ -23,6 +23,7 @@ func main() {
 		authRouterGroup.POST("/password", register.SetPassword)
 		authRouterGroup.POST("/login", register.Login)
 		authRouterGroup.POST("/register", register.Register)
+		authRouterGroup.POST("/del_account", register.DelAccount)
 	}
 
 	bottleGroup := r.Group("/bottle")
