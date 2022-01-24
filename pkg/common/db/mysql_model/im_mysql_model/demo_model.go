@@ -61,9 +61,13 @@ func UpdatePassword(params *UpdatePasswordParams) (Register, error) {
 		return r, err
 	}
 
-	result := dbConn.Updates(&r)
+	if params.Password != "" {
+		if err = dbConn.Exec("update register set password=? where account=?", params.Password, params.Account).Error; err != nil {
+			return r, err
+		}
+	}
 
-	return r, result.Error
+	return r, nil
 }
 
 func Login(params *Register) int64 {
