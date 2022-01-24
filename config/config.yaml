@@ -135,10 +135,10 @@ push:
       accessID: 111
       secretKey: 111
   jpns:
-    appKey: cf47465a368f24c659608e7e
-    masterSecret: 02204efe3f3832947a236ee5
+    appKey: 02360fe6eebb643f650f9bec
+    masterSecret: 9935a4ebeb471de91448fcf8
     pushUrl: "https://api.jpush.cn/v3/push"
-    pushIntent: "intent:#Intent;component=io.openim.app.enterprisechat/io.openim.app.enterprisechat.MainActivity;end"
+    pushIntent: "intent:#Intent;component=com.dengjian.app.bottle/com.dengjian.app.bottle.MainActivity;end"
 manager:
   appManagerUid: ["openIM123456","openIM654321"]
   secrets: ["openIM1","openIM2"]
