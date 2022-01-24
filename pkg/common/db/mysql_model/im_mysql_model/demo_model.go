@@ -61,7 +61,7 @@ func UpdatePassword(params *UpdatePasswordParams) (Register, error) {
 		return r, err
 	}
 
-	result := dbConn.Update(&r)
+	result := dbConn.Updates(&r)
 
 	return r, result.Error
 }
