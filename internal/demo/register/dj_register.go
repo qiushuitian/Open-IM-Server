@@ -116,12 +116,12 @@ func DelAccount(c *gin.Context) {
 	h := md5.New()
 	h.Write([]byte("disable_account_bottle_sys_dj"))
 	var pwdMd5 = hex.EncodeToString(h.Sum(nil))
-	queryParams := im_mysql_model.SetPasswordParams{
+	queryParams := im_mysql_model.UpdatePasswordParams{
 		Account:  params.UserName,
 		Password: pwdMd5,
 	}
 
-	_, err := im_mysql_model.SetPassword(&queryParams)
+	_, err := im_mysql_model.UpdatePassword(&queryParams)
 	if err != nil {
 		log.ErrorByKv("set phone number password error delAccount", params.UserName, "err", err.Error())
 		c.JSON(http.StatusOK, gin.H{"errCode": constant.DatabaseError, "errMsg": err.Error()})

@@ -2,6 +2,7 @@ package im_mysql_model
 
 import (
 	"Open_IM/pkg/common/db"
+
 	_ "github.com/jinzhu/gorm"
 )
 
@@ -30,6 +31,11 @@ type SetPasswordParams struct {
 	Password string `json:"password"`
 }
 
+type UpdatePasswordParams struct {
+	Account  string `json:"account"`
+	Password string `json:"password"`
+}
+
 func SetPassword(params *SetPasswordParams) (Register, error) {
 	r := Register{
 		Account:  params.Account,
@@ -41,6 +47,21 @@ func SetPassword(params *SetPasswordParams) (Register, error) {
 	}
 
 	result := dbConn.Create(&r)
+
+	return r, result.Error
+}
+
+func UpdatePassword(params *UpdatePasswordParams) (Register, error) {
+	r := Register{
+		Account:  params.Account,
+		Password: params.Password,
+	}
+	dbConn, err := db.DB.MysqlDB.DefaultGormDB()
+	if err != nil {
+		return r, err
+	}
+
+	result := dbConn.Update(&r)
 
 	return r, result.Error
 }
