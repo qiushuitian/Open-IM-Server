@@ -261,9 +261,9 @@ func OnlineConfig(c *gin.Context) {
 
 	data := make(map[string]interface{})
 	if params.Version == "1.2.0" && params.Platform == 1 { //1:iOS 2:Android
-		data["ad_on"] = false
+		data["ad_on"] = "off"
 	} else {
-		data["ad_on"] = true
+		data["ad_on"] = "on"
 	}
 
 	c.JSON(http.StatusOK, gin.H{"errCode": constant.NoError, "errMsg": "", "data": data})
