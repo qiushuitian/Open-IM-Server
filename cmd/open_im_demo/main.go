@@ -33,6 +33,7 @@ func main() {
 		bottleGroup.POST("/terms", bottle.Terms)
 		bottleGroup.POST("/report", bottle.Report)
 		bottleGroup.POST("/feedback", bottle.Feedback)
+		bottleGroup.POST("/online_config", bottle.OnlineConfig)
 
 	}
 

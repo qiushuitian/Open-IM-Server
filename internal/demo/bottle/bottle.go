@@ -73,6 +73,11 @@ type ParamsFeedback struct {
 	Content  string `json:"content"`
 }
 
+type ParamsOnlineConfig struct {
+	Platform string `json:"platform"`
+	Version  string `json:"version"`
+}
+
 func init() {
 	sensiveWordsMap = readSensiveWords()
 	fenChi = gojieba.NewJieba()
@@ -239,6 +244,27 @@ func Feedback(c *gin.Context) {
 
 	data := make(map[string]interface{})
 	data["msg"] = "反馈成功"
+
+	c.JSON(http.StatusOK, gin.H{"errCode": constant.NoError, "errMsg": "", "data": data})
+
+}
+
+// 在线参数
+func OnlineConfig(c *gin.Context) {
+	log.NewDebug("OnlineConfig api is statrting...")
+
+	params := ParamsOnlineConfig{}
+	if err := c.BindJSON(&params); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"errCode": constant.FormattingError, "errMsg": err.Error()})
+		return
+	}
+
+	data := make(map[string]interface{})
+	if params.Version == "1.2.0" && params.Platform == "1" { //1:iOS 2:Android
+		data["ad_on"] = false
+	} else {
+		data["ad_on"] = true
+	}
 
 	c.JSON(http.StatusOK, gin.H{"errCode": constant.NoError, "errMsg": "", "data": data})
 
